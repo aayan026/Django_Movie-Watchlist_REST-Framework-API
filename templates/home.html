@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Ana səhifə{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body p-4 p-lg-5 text-center">
+        <h1 class="mb-3"><i class="bi bi-film"></i> Movie Watchlist</h1>
+        <p class="text-secondary mb-4">
+            Baxmaq istədiyin, baxmaqda olduğun və artıq baxdığın filmləri bir yerdə idarə et.
+        </p>
+
+        {% if user.is_authenticated %}
+            <a class="btn btn-primary" href="{% url 'movies:movies_list' %}">
+                Mənim filmlərimə keç →
+            </a>
+        {% else %}
+            <a class="btn btn-primary" href="{% url 'accounts:login' %}">Daxil ol</a>
+            <a class="btn btn-outline-secondary" href="{% url 'accounts:register' %}">Qeydiyyatdan keç</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

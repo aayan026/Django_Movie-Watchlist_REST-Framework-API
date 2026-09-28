@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Filmin silinməsi{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1>Filmin silinməsi</h1>
+                <p class="text-secondary">
+                    "{{ movie.title }}" filmini siyahından silmək istədiyinizə əminsiniz?
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex flex-wrap gap-2 pt-3 mt-3 border-top">
+                        <button type="submit" class="btn btn-danger">Sil</button>
+                        <a href="{% url 'movies:movies_list' %}" class="btn btn-outline-secondary">Ləğv et</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

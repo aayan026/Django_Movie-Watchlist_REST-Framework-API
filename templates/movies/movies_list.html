@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Mənim filmlərim{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body p-4">
+        <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-3">
+            <h1 class="mb-0">Mənim filmlərim</h1>
+            <a class="btn btn-primary" href="{% url 'movies:movie_create' %}">
+                <i class="bi bi-plus-lg"></i>
+                Film əlavə et
+            </a>
+        </div>
+
+        <form method="get" class="row g-2 align-items-end mb-4">
+            <div class="col-sm-4">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-select" onchange="this.form.submit()">
+                    <option value="">Hamısı</option>
+                    {% for value, label in status_choices %}
+                        <option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <label class="form-label">Janr</label>
+                <select name="genre" class="form-select" onchange="this.form.submit()">
+                    <option value="">Hamısı</option>
+                    {% for genre in genres %}
+                        <option value="{{ genre }}" {% if selected_genre == genre %}selected{% endif %}>
+                            {{ genre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <a href="{% url 'movies:movies_list' %}" class="btn btn-outline-secondary">
+                    Filtri sıfırla
+                </a>
+            </div>
+        </form>
+
+        <p class="text-secondary">Ümumi: {{ movies|length }} film</p>
+
+        <div class="row g-3">
+            {% for movie in movies %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <h2 class="h5 mb-1">{{ movie.title }}</h2>
+                                {% if movie.rating %}
+                                    <span class="badge text-bg-warning">
+                                        <i class="bi bi-star-fill"></i> {{ movie.rating }}/10
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <p class="text-secondary mb-1">{{ movie.genre }} · {{ movie.release_year }}</p>
+                            <span class="badge text-bg-light mb-3">{{ movie.get_status_display }}</span>
+                            <div class="d-flex flex-wrap gap-2">
+                                <a class="btn btn-sm btn-outline-primary" href="{% url 'movies:movie_edit' movie.id %}">
+                                    Dəyiş
+                                </a>
+                                <a class="btn btn-sm btn-outline-danger" href="{% url 'movies:movie_delete' movie.id %}">
+                                    Sil
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-light mb-0">
+                        Göstərmək üçün heç bir film yoxdur.
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

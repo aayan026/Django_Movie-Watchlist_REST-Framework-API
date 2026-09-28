@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Qeydiyyat{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-5">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1 class="h3 mb-3">Qeydiyyatdan keç</h1>
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    {{ form.as_div }}
+                    <button type="submit" class="btn btn-primary w-100 mt-3">Qeydiyyatdan keç</button>
+                </form>
+
+                <p class="text-secondary mt-3 mb-0">
+                    Artıq hesabın var? <a href="{% url 'accounts:login' %}">Daxil ol</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

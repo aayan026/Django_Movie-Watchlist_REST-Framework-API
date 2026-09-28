@@ -1,0 +1,67 @@
+{% with url_name=request.resolver_match.url_name ns=request.resolver_match.namespace %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="bi bi-film"></i>
+                Movie Watchlist
+            </a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar"
+                aria-expanded="false"
+                aria-label="Menyu"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+                    <li class="nav-item">
+                        <a class="nav-link{% if url_name == 'home' %} active{% endif %}" href="{% url 'home' %}">
+                            Ana səhifə
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a
+                                class="nav-link{% if ns == 'movies' and url_name != 'movie_create' %} active{% endif %}"
+                                href="{% url 'movies:movies_list' %}"
+                            >
+                                Mənim filmlərim
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link{% if url_name == 'movie_create' %} active{% endif %}"
+                                href="{% url 'movies:movie_create' %}"
+                            >
+                                Film əlavə et
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <form method="post" action="{% url 'accounts:logout' %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-link nav-link border-0">
+                                    Çıxış ({{ user.username }})
+                                </button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link{% if url_name == 'login' %} active{% endif %}" href="{% url 'accounts:login' %}">
+                                Daxil ol
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link{% if url_name == 'register' %} active{% endif %}" href="{% url 'accounts:register' %}">
+                                Qeydiyyat
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endwith %}
